@@ -2,6 +2,8 @@ package edu.explorer.mundo;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 import edu.explorer.mundo.Archivo;
 import junit.framework.TestCase;
@@ -30,7 +32,9 @@ public class ArchivoTest extends TestCase
      */
     private void setupEscenario1( )
     {
-        archivo = new Archivo( new File( "test" + File.separator + "data" + File.separator + "texto1.txt" ).getAbsolutePath( ) );
+        URL url = getClass().getClassLoader().getResource("test" + File.separator + "data" + File.separator + "texto1.txt");
+        assert url != null;
+        archivo = new Archivo(url.getFile());
     }
 
     /**
@@ -61,16 +65,17 @@ public class ArchivoTest extends TestCase
      */
     public void testInformacion( )
     {
-        setupEscenario1( );
+        setupEscenario1();
 
         // Prueba la informacián del archivo
-        File ruta = new File( "test" + File.separator + "data" + File.separator + "texto1.txt" );
-        String path = ruta.getAbsolutePath( );
-        assertEquals( "El nombre es inválido", "texto1.txt", archivo.darNombre( ) );
-        assertEquals( "El tamaáo es inválido", 31, archivo.darTamanio( ) );
-        assertEquals( "El tamaáo en String es inválido", "31 Bytes", archivo.darTamanioString( ) );
-        assertEquals( "La ruta no es inválida", path, archivo.darRuta( ) );
-        assertTrue( "Deberáa ser un archivo de texto", archivo.esTexto( ) );
+        URL url = getClass().getClassLoader().getResource("test" + File.separator + "data" + File.separator + "texto1.txt");
+        assert url != null;
+        String path = url.getFile();
+        assertEquals("El nombre es inválido", "texto1.txt", archivo.darNombre());
+        assertEquals("El tamaáo es inválido", 31, archivo.darTamanio());
+        assertEquals("El tamaáo en String es inválido", "31 Bytes", archivo.darTamanioString());
+        assertEquals("La ruta no es inválida", path, archivo.darRuta());
+        assertTrue("Deberáa ser un archivo de texto", archivo.esTexto());
     }
 
     /**
