@@ -192,10 +192,13 @@ public class InterfazExploradorArchivos extends JFrame
      */
     public void refrescar( )
     {
-        panelDirectorioActual.refrescar( explorador.darRutaActual( ) );
-        panelDirectorios.refrescar( explorador.darSubDirectorios( ) );
-        panelArchivos.refrescar( explorador.darArchivos( ) );
-        panelBusqueda.limpiar( );
+        panelDirectorioActual.refrescar(explorador.darRutaActual());
+
+        panelDirectorios.updateActualPath(explorador.darRutaActual());
+        panelDirectorios.refrescar(explorador.darSubDirectorios());
+
+        panelArchivos.refrescar(explorador.darArchivos());
+        panelBusqueda.limpiar();
     }
 
     // -----------------------------------------------------------------

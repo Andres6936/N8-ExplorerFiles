@@ -33,7 +33,7 @@ public class PanelDirectorios extends JPanel implements ListSelectionListener, T
      */
     private final JList<Object> listaDirectorios;
 
-    private final DefaultMutableTreeNode top = new DefaultMutableTreeNode("/home");
+    private final DefaultMutableTreeNode top = new DefaultMutableTreeNode("/");
 
     private final JTree tree;
 
@@ -76,18 +76,32 @@ public class PanelDirectorios extends JPanel implements ListSelectionListener, T
     // -----------------------------------------------------------------
 
     /**
+     * Update the JTree for render the changes realized to nodes.
+     */
+    private void notifyTreeOfChanges() {
+        DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+        model.reload();
+    }
+
+    /**
      * Actualiza la informacián de los directorios
+     *
      * @param directories son los directorios nuevos
      */
-    public void refrescar( Directory[] directories) {
+    public void refrescar(Directory[] directories) {
         listaDirectorios.setListData(directories);
 
         for (Directory directory : directories) {
             top.add(new DefaultMutableTreeNode(directory.getName()));
         }
 
-        DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
-        model.reload();
+        notifyTreeOfChanges();
+    }
+
+    public void updateActualPath(final String actualPath) {
+        top.setUserObject(actualPath);
+
+        notifyTreeOfChanges();
     }
 
     // -----------------------------------------------------------------
@@ -96,6 +110,7 @@ public class PanelDirectorios extends JPanel implements ListSelectionListener, T
 
     /**
      * Accián ejecutada cuando la lista cambia de valor
+     *
      * @param e es el evento de cambio
      */
     public void valueChanged(ListSelectionEvent e) {
