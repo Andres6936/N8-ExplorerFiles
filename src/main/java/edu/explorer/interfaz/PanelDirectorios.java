@@ -93,6 +93,11 @@ public class PanelDirectorios extends JPanel implements TreeSelectionListener {
         notifyTreeOfChanges();
     }
 
+    /**
+     * Update the name that root node show to user.
+     *
+     * @param actualPath Name of actual path (directory)
+     */
     public void updateActualPath(final String actualPath) {
         top.setUserObject(actualPath);
 
