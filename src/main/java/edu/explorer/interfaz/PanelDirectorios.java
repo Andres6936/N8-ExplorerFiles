@@ -10,15 +10,18 @@ import javax.swing.JTree;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeSelectionModel;
 
 import edu.explorer.mundo.Directory;
 
 /**
  * Panel con los subdirectorios actuales
  */
-public class PanelDirectorios extends JPanel implements ListSelectionListener {
+public class PanelDirectorios extends JPanel implements ListSelectionListener, TreeSelectionListener {
     // -----------------------------------------------------------------
     // Atributos
     // -----------------------------------------------------------------
@@ -60,6 +63,8 @@ public class PanelDirectorios extends JPanel implements ListSelectionListener {
         listaDirectorios.addListSelectionListener(this);
 
         tree = new JTree(top);
+        tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        tree.addTreeSelectionListener(this);
 
         JScrollPane treeView = new JScrollPane(tree);
         treeView.setPreferredSize(new Dimension(250, 100));
@@ -125,6 +130,17 @@ public class PanelDirectorios extends JPanel implements ListSelectionListener {
         int indice = listaDirectorios.getSelectedIndex();
         if (indice != -1) {
             principal.navegar(indice);
+        }
+    }
+
+    @Override
+    public void valueChanged(TreeSelectionEvent e) {
+        var node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+
+        if (node == null) return;
+
+        if (node.isLeaf()) {
+            principal.navegar(node.getChildCount());
         }
     }
 }
