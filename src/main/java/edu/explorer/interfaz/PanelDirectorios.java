@@ -57,7 +57,7 @@ public class PanelDirectorios extends JPanel implements TreeSelectionListener {
         tree.addTreeSelectionListener(this);
 
         JScrollPane treeView = new JScrollPane(tree);
-        treeView.setPreferredSize(new Dimension(250, 180));
+        treeView.setPreferredSize(new Dimension(250, 200));
         treeView.setViewportView(tree);
         add(treeView, BorderLayout.NORTH);
 
