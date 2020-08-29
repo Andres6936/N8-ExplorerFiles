@@ -92,6 +92,9 @@ public class PanelDirectorios extends JPanel implements ListSelectionListener, T
     public void refrescar(Directory[] directories) {
         listaDirectorios.setListData(directories);
 
+        // Clear the content of parent node
+        top.removeAllChildren();
+
         for (Directory directory : directories) {
             top.add(new DefaultMutableTreeNode(directory.getName()));
         }
