@@ -63,7 +63,9 @@ public class PanelDirectorios extends JPanel implements ListSelectionListener, T
         listaDirectorios.addListSelectionListener(this);
 
         tree = new JTree(top);
+        // Only allow that user select a unique element
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        // Listen for when the selection changes.
         tree.addTreeSelectionListener(this);
 
         JScrollPane treeView = new JScrollPane(tree);
@@ -133,10 +135,18 @@ public class PanelDirectorios extends JPanel implements ListSelectionListener, T
         }
     }
 
+    /**
+     * Action execute when the user select a node of tree
+     *
+     * @param e Event that notify the change
+     */
     @Override
     public void valueChanged(TreeSelectionEvent e) {
+        // Returns the last path element of the selection.
+        // This method is useful only when the selection model allows a single selection.
         var node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
 
+        // Nothing is selected.
         if (node == null) return;
 
         if (node.isLeaf()) {
