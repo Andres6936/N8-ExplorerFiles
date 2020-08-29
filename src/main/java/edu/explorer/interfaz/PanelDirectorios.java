@@ -3,13 +3,10 @@ package edu.explorer.interfaz;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -21,7 +18,7 @@ import edu.explorer.mundo.Directory;
 /**
  * Panel con los subdirectorios actuales
  */
-public class PanelDirectorios extends JPanel implements ListSelectionListener, TreeSelectionListener {
+public class PanelDirectorios extends JPanel implements TreeSelectionListener {
     // -----------------------------------------------------------------
     // Atributos
     // -----------------------------------------------------------------
@@ -34,11 +31,6 @@ public class PanelDirectorios extends JPanel implements ListSelectionListener, T
     // -----------------------------------------------------------------
     // Atributos de Interfaz
     // -----------------------------------------------------------------
-
-    /**
-     * Lista de directorios
-     */
-    private final JList<Object> listaDirectorios;
 
     private final DefaultMutableTreeNode top = new DefaultMutableTreeNode("/");
 
@@ -58,10 +50,6 @@ public class PanelDirectorios extends JPanel implements ListSelectionListener, T
         setBorder(new TitledBorder("Directories"));
         setLayout(new BorderLayout());
 
-        // Agrega los elementos
-        listaDirectorios = new JList<>();
-        listaDirectorios.addListSelectionListener(this);
-
         tree = new JTree(top);
         // Only allow that user select a unique element
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -69,14 +57,9 @@ public class PanelDirectorios extends JPanel implements ListSelectionListener, T
         tree.addTreeSelectionListener(this);
 
         JScrollPane treeView = new JScrollPane(tree);
-        treeView.setPreferredSize(new Dimension(250, 100));
+        treeView.setPreferredSize(new Dimension(250, 180));
         treeView.setViewportView(tree);
         add(treeView, BorderLayout.NORTH);
-
-        // Scroll para la lista
-        JScrollPane scroll = new JScrollPane(listaDirectorios);
-        scroll.setPreferredSize(new Dimension(250, 180));
-        add(scroll, BorderLayout.CENTER);
 
         setPreferredSize(new Dimension(300, 230));
     }
@@ -100,8 +83,6 @@ public class PanelDirectorios extends JPanel implements ListSelectionListener, T
      * @param directories son los directorios nuevos
      */
     public void refrescar(Directory[] directories) {
-        listaDirectorios.setListData(directories);
-
         // Clear the content of parent node
         top.removeAllChildren();
 
@@ -123,19 +104,6 @@ public class PanelDirectorios extends JPanel implements ListSelectionListener, T
     // -----------------------------------------------------------------
 
     /**
-     * Accián ejecutada cuando la lista cambia de valor
-     *
-     * @param e es el evento de cambio
-     */
-    public void valueChanged(ListSelectionEvent e) {
-        // Seleccián de un elemento de la lista
-        int indice = listaDirectorios.getSelectedIndex();
-        if (indice != -1) {
-            principal.navegar(indice);
-        }
-    }
-
-    /**
      * Action execute when the user select a node of tree
      *
      * @param e Event that notify the change
@@ -150,7 +118,7 @@ public class PanelDirectorios extends JPanel implements ListSelectionListener, T
         if (node == null) return;
 
         if (node.isLeaf()) {
-            principal.navegar(node.getChildCount());
+            principal.navegar(top.getIndex(node));
         }
     }
 }
