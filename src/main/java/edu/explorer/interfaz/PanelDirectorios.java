@@ -79,6 +79,7 @@ public class PanelDirectorios extends JPanel implements ListSelectionListener, T
      * Update the JTree for render the changes realized to nodes.
      */
     private void notifyTreeOfChanges() {
+        // Patter MVC, is needed notify to model of changes in the view
         DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
         model.reload();
     }
