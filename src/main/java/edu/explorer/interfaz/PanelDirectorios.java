@@ -2,7 +2,15 @@ package edu.explorer.interfaz;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Objects;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -10,6 +18,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
@@ -56,6 +65,17 @@ public class PanelDirectorios extends JPanel implements TreeSelectionListener {
         // Listen for when the selection changes.
         tree.addTreeSelectionListener(this);
 
+        ClassLoader loader = getClass().getClassLoader();
+
+        try {
+            BufferedImage leafIcon = ImageIO.read(new File(Objects.requireNonNull(loader.getResource("icons/file-unknown.png")).getFile()));
+            var cellRenderer = new DefaultTreeCellRenderer();
+            cellRenderer.setLeafIcon(new ImageIcon(scaleImage(leafIcon, 16, 16)));
+            tree.setCellRenderer(cellRenderer);
+        } catch (IOException e) {
+            System.err.println("Cannot found the image");
+        }
+
         JScrollPane treeView = new JScrollPane(tree);
         treeView.setPreferredSize(new Dimension(250, 200));
         treeView.setViewportView(tree);
@@ -67,6 +87,17 @@ public class PanelDirectorios extends JPanel implements TreeSelectionListener {
     // -----------------------------------------------------------------
     // Mátodos
     // -----------------------------------------------------------------
+
+    private static BufferedImage scaleImage(final BufferedImage img, final int width, final int height) {
+        Image resize = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        BufferedImage buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D graphics2D = buffer.createGraphics();
+
+        graphics2D.drawImage(resize, 0, 0, null);
+        graphics2D.dispose();
+
+        return buffer;
+    }
 
     /**
      * Update the JTree for render the changes realized to nodes.
