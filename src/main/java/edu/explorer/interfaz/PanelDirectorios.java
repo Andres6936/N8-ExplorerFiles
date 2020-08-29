@@ -1,20 +1,24 @@
 package edu.explorer.interfaz;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.ExpandVetoException;
 
-import edu.explorer.mundo.*;
+import edu.explorer.mundo.Directory;
 
 /**
  * Panel con los subdirectorios actuales
  */
-public class PanelDirectorios extends JPanel implements ListSelectionListener, TreeWillExpandListener {
+public class PanelDirectorios extends JPanel implements ListSelectionListener {
     // -----------------------------------------------------------------
     // Atributos
     // -----------------------------------------------------------------
@@ -56,7 +60,6 @@ public class PanelDirectorios extends JPanel implements ListSelectionListener, T
         listaDirectorios.addListSelectionListener(this);
 
         tree = new JTree(top);
-        tree.addTreeWillExpandListener(this);
 
         JScrollPane treeView = new JScrollPane(tree);
         treeView.setPreferredSize(new Dimension(250, 100));
@@ -123,15 +126,5 @@ public class PanelDirectorios extends JPanel implements ListSelectionListener, T
         if (indice != -1) {
             principal.navegar(indice);
         }
-    }
-
-    @Override
-    public void treeWillExpand(TreeExpansionEvent event) throws ExpandVetoException {
-
-    }
-
-    @Override
-    public void treeWillCollapse(TreeExpansionEvent event) throws ExpandVetoException {
-
     }
 }
