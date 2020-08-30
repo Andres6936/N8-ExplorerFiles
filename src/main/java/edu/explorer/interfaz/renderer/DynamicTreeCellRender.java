@@ -12,17 +12,27 @@ import java.io.IOException;
 
 public class DynamicTreeCellRender extends DefaultTreeCellRenderer {
 
+    private ImageIcon folderIcon = null;
+
+    public DynamicTreeCellRender() {
+        // Call to parent construct
+        super();
+
+        // The strategy is cache the result of load the image for better performance
+        try {
+            BufferedImage folderIcon = IconsUtility.getIcon("icons/folder.png");
+            this.folderIcon = new ImageIcon(IconsUtility.colorizeImage(IconsUtility.scaleImage(folderIcon, 16, 16), new Color(174, 185, 192)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) {
         super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 
         if (!isRegularFile(value)) {
-            try {
-                BufferedImage iconDirectory = IconsUtility.getIcon("icons/folder.png");
-                setIcon(new ImageIcon(IconsUtility.colorizeImage(IconsUtility.scaleImage(iconDirectory, 16, 16), new Color(174, 185, 192))));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            if (folderIcon != null) setIcon(folderIcon);
         }
 
         return this;
