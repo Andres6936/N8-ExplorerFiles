@@ -1,6 +1,8 @@
 package edu.explorer.interfaz;
 
+import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -64,13 +66,15 @@ public class PanelDirectorios extends JPanel implements TreeSelectionListener {
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         // Listen for when the selection changes.
         tree.addTreeSelectionListener(this);
+        // Change the look and feel of JTree
+        tree.putClientProperty("JTree.lineStyle", "None");
 
         ClassLoader loader = getClass().getClassLoader();
 
         try {
-            BufferedImage leafIcon = ImageIO.read(new File(Objects.requireNonNull(loader.getResource("icons/file-unknown.png")).getFile()));
+            BufferedImage leafIcon = ImageIO.read(new File(Objects.requireNonNull(loader.getResource("icons/folder.png")).getFile()));
             var cellRenderer = new DefaultTreeCellRenderer();
-            cellRenderer.setLeafIcon(new ImageIcon(scaleImage(leafIcon, 16, 16)));
+            cellRenderer.setLeafIcon(new ImageIcon(colorizeImage(scaleImage(leafIcon, 16, 16), new Color(127, 127, 127))));
             tree.setCellRenderer(cellRenderer);
         } catch (IOException e) {
             System.err.println("Cannot found the image");
@@ -94,6 +98,18 @@ public class PanelDirectorios extends JPanel implements TreeSelectionListener {
         Graphics2D graphics2D = buffer.createGraphics();
 
         graphics2D.drawImage(resize, 0, 0, null);
+        graphics2D.dispose();
+
+        return buffer;
+    }
+
+    private static BufferedImage colorizeImage(final BufferedImage img, Color color) {
+        BufferedImage buffer = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D graphics2D = buffer.createGraphics();
+        graphics2D.drawImage(img, 0, 0, null);
+        graphics2D.setComposite(AlphaComposite.SrcAtop);
+        graphics2D.setColor(color);
+        graphics2D.fillRect(0, 0, img.getWidth(), img.getHeight());
         graphics2D.dispose();
 
         return buffer;
