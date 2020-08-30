@@ -104,11 +104,11 @@ public class PanelDirectorios extends JPanel implements TreeSelectionListener {
         top.removeAllChildren();
 
         for (Directory directory : directories) {
-            top.add(new DefaultMutableTreeNode(directory.getName()));
+            top.add(new DefaultMutableTreeNode(directory));
         }
 
         for (Archivo archivo : archivos) {
-            top.add(new DefaultMutableTreeNode(archivo.darNombre()));
+            top.add(new DefaultMutableTreeNode(archivo));
         }
 
         notifyTreeOfChanges();
