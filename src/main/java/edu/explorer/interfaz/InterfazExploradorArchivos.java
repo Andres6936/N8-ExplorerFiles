@@ -6,6 +6,7 @@ import java.util.*;
 
 import javax.swing.*;
 
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import edu.explorer.mundo.*;
 
 /**
@@ -265,9 +266,11 @@ public class InterfazExploradorArchivos extends JFrame
      * Este mátodo ejecuta la aplicacián, creando la ventana de la interfaz
      * @param args son los argumentos de la aplicacián. No se requiere ninguno.
      */
-    public static void main( String[] args )
-    {
-        InterfazExploradorArchivos interfaz = new InterfazExploradorArchivos( );
-        interfaz.setVisible( true );
+    public static void main( String[] args ) {
+        // Set the Look and Feel
+        FlatIntelliJLaf.install();
+
+        InterfazExploradorArchivos interfaz = new InterfazExploradorArchivos();
+        interfaz.setVisible(true);
     }
 }

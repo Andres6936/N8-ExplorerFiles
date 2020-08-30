@@ -74,7 +74,7 @@ public class PanelDirectorios extends JPanel implements TreeSelectionListener {
         try {
             BufferedImage leafIcon = ImageIO.read(new File(Objects.requireNonNull(loader.getResource("icons/folder.png")).getFile()));
             var cellRenderer = new DefaultTreeCellRenderer();
-            cellRenderer.setLeafIcon(new ImageIcon(colorizeImage(scaleImage(leafIcon, 16, 16), new Color(127, 127, 127))));
+            cellRenderer.setLeafIcon(new ImageIcon(colorizeImage(scaleImage(leafIcon, 16, 16), new Color(174, 185, 192))));
             tree.setCellRenderer(cellRenderer);
         } catch (IOException e) {
             System.err.println("Cannot found the image");
