@@ -1,6 +1,6 @@
 package edu.explorer.interfaz;
 
-import edu.explorer.interfaz.renderer.DynamicTreeCellRender;
+import edu.explorer.interfaz.renderer.DynamicTreeCellRenderer;
 import edu.explorer.mundo.Archivo;
 import edu.explorer.mundo.Directory;
 
@@ -56,7 +56,7 @@ public class PanelDirectorios extends JPanel implements TreeSelectionListener {
         // Change the style of line of JTree
         tree.putClientProperty("JTree.lineStyle", "None");
         // Dynamic look and feel of JTree nodes
-        tree.setCellRenderer(new DynamicTreeCellRender());
+        tree.setCellRenderer(new DynamicTreeCellRenderer());
 
         JScrollPane treeView = new JScrollPane(tree);
         treeView.setPreferredSize(new Dimension(250, 200));

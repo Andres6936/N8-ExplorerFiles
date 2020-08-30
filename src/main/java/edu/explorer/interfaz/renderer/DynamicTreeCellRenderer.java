@@ -10,11 +10,11 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class DynamicTreeCellRender extends DefaultTreeCellRenderer {
+public class DynamicTreeCellRenderer extends DefaultTreeCellRenderer {
 
     private ImageIcon folderIcon = null;
 
-    public DynamicTreeCellRender() {
+    public DynamicTreeCellRenderer() {
         // Call to parent construct
         super();
 
