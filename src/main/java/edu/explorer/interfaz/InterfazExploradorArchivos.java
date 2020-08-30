@@ -196,7 +196,7 @@ public class InterfazExploradorArchivos extends JFrame
         panelDirectorioActual.refrescar(explorador.darRutaActual());
 
         panelDirectorios.updateActualPath(explorador.darRutaActual());
-        panelDirectorios.refrescar(explorador.darSubDirectorios());
+        panelDirectorios.updateListDirectories(explorador.darSubDirectorios(), explorador.darArchivos());
 
         panelArchivos.refrescar(explorador.darArchivos());
         panelBusqueda.limpiar();

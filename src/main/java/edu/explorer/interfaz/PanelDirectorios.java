@@ -24,6 +24,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
+import edu.explorer.mundo.Archivo;
 import edu.explorer.mundo.Directory;
 
 /**
@@ -69,12 +70,10 @@ public class PanelDirectorios extends JPanel implements TreeSelectionListener {
         // Change the look and feel of JTree
         tree.putClientProperty("JTree.lineStyle", "None");
 
-        ClassLoader loader = getClass().getClassLoader();
-
         try {
-            BufferedImage leafIcon = ImageIO.read(new File(Objects.requireNonNull(loader.getResource("icons/folder.png")).getFile()));
+            BufferedImage leafIcon = IconsUtility.getIcon("icons/folder.png");
             var cellRenderer = new DefaultTreeCellRenderer();
-            cellRenderer.setLeafIcon(new ImageIcon(colorizeImage(scaleImage(leafIcon, 16, 16), new Color(174, 185, 192))));
+            cellRenderer.setLeafIcon(new ImageIcon(IconsUtility.colorizeImage(IconsUtility.scaleImage(leafIcon, 16, 16), new Color(174, 185, 192))));
             tree.setCellRenderer(cellRenderer);
         } catch (IOException e) {
             System.err.println("Cannot found the image");
@@ -92,29 +91,6 @@ public class PanelDirectorios extends JPanel implements TreeSelectionListener {
     // Mátodos
     // -----------------------------------------------------------------
 
-    private static BufferedImage scaleImage(final BufferedImage img, final int width, final int height) {
-        Image resize = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        BufferedImage buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D graphics2D = buffer.createGraphics();
-
-        graphics2D.drawImage(resize, 0, 0, null);
-        graphics2D.dispose();
-
-        return buffer;
-    }
-
-    private static BufferedImage colorizeImage(final BufferedImage img, Color color) {
-        BufferedImage buffer = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        Graphics2D graphics2D = buffer.createGraphics();
-        graphics2D.drawImage(img, 0, 0, null);
-        graphics2D.setComposite(AlphaComposite.SrcAtop);
-        graphics2D.setColor(color);
-        graphics2D.fillRect(0, 0, img.getWidth(), img.getHeight());
-        graphics2D.dispose();
-
-        return buffer;
-    }
-
     /**
      * Update the JTree for render the changes realized to nodes.
      */
@@ -129,12 +105,16 @@ public class PanelDirectorios extends JPanel implements TreeSelectionListener {
      *
      * @param directories son los directorios nuevos
      */
-    public void refrescar(Directory[] directories) {
+    public void updateListDirectories(Directory[] directories, Archivo[] archivos) {
         // Clear the content of parent node
         top.removeAllChildren();
 
         for (Directory directory : directories) {
             top.add(new DefaultMutableTreeNode(directory.getName()));
+        }
+
+        for (Archivo archivo : archivos) {
+            top.add(new DefaultMutableTreeNode(archivo.darNombre()));
         }
 
         notifyTreeOfChanges();
