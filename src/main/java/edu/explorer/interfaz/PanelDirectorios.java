@@ -95,9 +95,9 @@ public class PanelDirectorios extends JPanel implements TreeSelectionListener {
     }
 
     /**
-     * Actualiza la informacián de los directorios
+     * Update the list of directories
      *
-     * @param directories son los directorios nuevos
+     * @param directories The new directories
      */
     public void updateListDirectories(Directory[] directories, Archivo[] archivos) {
         // Clear the content of parent node
