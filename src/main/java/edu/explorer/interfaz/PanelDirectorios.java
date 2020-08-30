@@ -24,6 +24,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
+import edu.explorer.interfaz.renderer.DynamicTreeCellRender;
 import edu.explorer.mundo.Archivo;
 import edu.explorer.mundo.Directory;
 
@@ -67,17 +68,10 @@ public class PanelDirectorios extends JPanel implements TreeSelectionListener {
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         // Listen for when the selection changes.
         tree.addTreeSelectionListener(this);
-        // Change the look and feel of JTree
+        // Change the style of line of JTree
         tree.putClientProperty("JTree.lineStyle", "None");
-
-        try {
-            BufferedImage leafIcon = IconsUtility.getIcon("icons/folder.png");
-            var cellRenderer = new DefaultTreeCellRenderer();
-            cellRenderer.setLeafIcon(new ImageIcon(IconsUtility.colorizeImage(IconsUtility.scaleImage(leafIcon, 16, 16), new Color(174, 185, 192))));
-            tree.setCellRenderer(cellRenderer);
-        } catch (IOException e) {
-            System.err.println("Cannot found the image");
-        }
+        // Dynamic look and feel of JTree nodes
+        tree.setCellRenderer(new DynamicTreeCellRender());
 
         JScrollPane treeView = new JScrollPane(tree);
         treeView.setPreferredSize(new Dimension(250, 200));
